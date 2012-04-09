@@ -19,60 +19,54 @@ public class beads {
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {
-		// BufferedReader br = new BufferedReader(new FileReader("beads.in"));
-		// PrintWriter pw = new PrintWriter(new BufferedWriter(new
-		// FileWriter("beads.out")));
+		BufferedReader br = new BufferedReader(new FileReader("beads.in"));
+		PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(
+				"beads.out")));
 
-		// int N = Integer.parseInt(br.readLine());
-		// String beadsStr = br.readLine();
-		String beadsStr = "wwwbbrwrbrbrrbrbrwrwwrbwrwrrb";
+		int N = Integer.parseInt(br.readLine());
+		String beadsStr = br.readLine();
 
-		beadsStr += beadsStr;
+		String beadsStr2 = beadsStr + beadsStr;
 
 		Hashtable<Integer, Integer> forward = new Hashtable<Integer, Integer>();
 		Hashtable<Integer, Integer> backward = new Hashtable<Integer, Integer>();
 
 		int start = 0;
-		int nextStart = 0;
-		int current = 0;
-		char color = beadsStr.charAt(start);
 
-		while (current < beadsStr.length()) {
+		while (start < beadsStr2.length()) {
+			char color = beadsStr2.charAt(start);
+			int current = start;
 
-			start = nextStart;
-			nextStart = -1;
-			current = start;
-			color = beadsStr.charAt(start);
+			while (current < beadsStr2.length() && current - start < N) {
 
-			while (current < beadsStr.length()) {
-
-				char c = beadsStr.charAt(current);
-
-				if (c == color) {
+				if (beadsStr2.charAt(current) == color
+						|| beadsStr2.charAt(current) == 'w') {
+					current++;
+				} else if (color == 'w') {
+					color = beadsStr2.charAt(current);
 					current++;
 				} else {
-
-					if (color == 'w') {
-						color = c;
-						nextStart = (nextStart == -1) ? current : nextStart;
-						current ++;
-						continue;
-					}
-
-					if (c == 'w') {
-						nextStart = (nextStart == -1) ? current : nextStart;
-						current++;
-					} else {
-						nextStart = (nextStart == -1) ? current : nextStart;
-						break;
-					}
+					break;
 				}
 			}
 
-			System.out.println(start + " # " + current + " * "
-					+ (current - start));
-			forward.put(start, current - start);
-			backward.put(current, current - start);
+			if (!forward.containsKey(start % N)
+					|| forward.get(start % N) < (current - start)) {
+				forward.put(start % N, current - start);
+			}
+			if (!backward.containsKey(current % N)
+					|| backward.get(current % N) < (current - start)) {
+				backward.put(current % N, current - start);
+			}
+
+			// look for next segment
+			color = beadsStr2.charAt(start);
+			current = start;
+			while (current < beadsStr2.length()
+					&& beadsStr2.charAt(current) == color) {
+				current++;
+			}
+			start = current;
 		}
 
 		int result = 0;
@@ -80,7 +74,8 @@ public class beads {
 
 			if (backward.containsKey(k)) {
 
-				System.out.println(forward.get(k) + " - " + backward.get(k));
+				System.out.println(k + ":" + forward.get(k) + " - "
+						+ backward.get(k));
 				int sum = forward.get(k) + backward.get(k);
 				if (sum > result) {
 					result = sum;
@@ -88,9 +83,14 @@ public class beads {
 			}
 		}
 
+		if (result > N) {
+			result = N;
+		}
 		System.out.println(result);
-		// pw.println(result);
-		// pw.close();
+
+		pw.println(result);
+
+		pw.close();
 		System.exit(0);
 
 	}
