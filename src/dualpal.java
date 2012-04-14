@@ -1,7 +1,7 @@
 /*
 ID: jastina1
 LANG: JAVA
-TASK: palsquare
+TASK: dualpal
 */
 
 import java.io.BufferedReader;
@@ -12,32 +12,45 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.StringTokenizer;
 
-public class palsquare {
+public class dualpal {
 
 	/**
 	 * @param args
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-		BufferedReader br = new BufferedReader(new FileReader("palsquare.in"));
-		PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("palsquare.out")));
+		BufferedReader br = new BufferedReader(new FileReader("dualpal.in"));
+		PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("dualpal.out")));
 		
-		int B = Integer.parseInt(br.readLine());
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int N = Integer.parseInt(st.nextToken());
+		int S = Integer.parseInt(st.nextToken());
+		
 		br.close();
 		
 		List<Integer> solution = new ArrayList<Integer>();
 		
-		for(int i = 1; i <= 300; i ++){
+		for(int i = S + 1; solution.size() < N; i ++){
 			
-			if(isPalindrom(toBase(i * i, B))){
+			int inPal = 0;
+			
+			for(int B = 2; B <= 10 && inPal < 2; B++){
+				if(isPalindrom(toBase(i, B))){
+					inPal ++;
+				}
+			}
+			
+			if(inPal == 2){
 				solution.add(i);
 			}
+			
 		}
 		
 		for(Integer i : solution){
-			pw.println(toBase(i, B) + " " + toBase(i*i, B));
-			System.out.println(toBase(i, B) + " " + toBase(i*i, B));
+			pw.println(i);
+			System.out.println(i);
 		}
 		
 		pw.close();
