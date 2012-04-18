@@ -46,7 +46,7 @@ public class HallOfMirrors {
 			xList.add(new Point(x0, y0));
 			int xMin = 0, xMax = W-2;
 			int yMin = 0, yMax = H-2;
-			while(xMax <= D){
+			while((xMax - x0) <= D){
 				int size = xList.size();
 				for(int i = 0; i < size; i ++){
 					Point p = new Point(xList.get(i));
@@ -56,7 +56,7 @@ public class HallOfMirrors {
 				xMax = (xMax - xMin) * 2;
 			}
 			
-			while(-xMin <= D){
+			while( (x0-xMin) <= D){
 				int size = xList.size();
 				for(int i = 0; i < size; i ++){
 					Point p = new Point(xList.get(i));
@@ -66,7 +66,7 @@ public class HallOfMirrors {
 				xMin = 2 * xMin - xMax;
 			}
 
-			while(yMax <= D){
+			while((yMax - y0) <= D){
 				int size = xList.size();
 				for(int i = 0; i < size; i ++){
 					Point p = new Point(xList.get(i));
@@ -76,7 +76,7 @@ public class HallOfMirrors {
 				yMax = (yMax - yMin) * 2;
 			}
 			
-			while(-yMin <= D){
+			while( (y0-yMin) <= D){
 				int size = xList.size();
 				for(int i = 0; i < size; i ++){
 					Point p = new Point(xList.get(i));
@@ -125,13 +125,13 @@ public class HallOfMirrors {
 				}
 			}
 			
-			count = 0;
-			for(Point p : candidateList){
-				if(!p.disabled){
-					count ++;
-					System.out.println(p);
-				}
-			}
+//			count = 0;
+//			for(Point p : candidateList){
+//				if(!p.disabled){
+//					count ++;
+//					System.out.println(p);
+//				}
+//			}
 			out.format("Case #%d: %d\n", t, count);
 		}
 
