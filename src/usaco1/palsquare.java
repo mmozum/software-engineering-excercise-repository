@@ -1,3 +1,5 @@
+package usaco1;
+
 /*
 ID: jastina1
 LANG: JAVA
