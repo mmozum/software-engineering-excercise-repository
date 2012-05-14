@@ -6,23 +6,31 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
 
-public class Round1BC {
+public class Round1CA {
 	
+	static class Item {
+		int cost1;
+		int cost2;
+		int level;
+		int status;
+		
+		Item(int l, int c1, int c2){
+			level = l;
+			cost1 = c1;
+			cost2 = c2;
+		}
+	}
 	
-	static List<Long> list1, list2;
-	static long target;
 
 	public static void main(String[] args) throws Exception {
 
 		Scanner scanner = new Scanner(new BufferedReader(new FileReader(
-				"C-large-practice.in")));
+				"A-large-practice.in.txt")));
 		Output out = new Output("A.out");
 
 		int T = scanner.nextInt();
@@ -30,38 +38,34 @@ public class Round1BC {
 		for (int t = 1; t <= T; t++) {
 			
 			int N = scanner.nextInt();
-			long[] sArr = new long[N];
+			int[][] cArr = new int[N+1][];
 			
-			for(int i = 0; i < N; i ++){
-				sArr[i] = scanner.nextLong();
-			}
-
-
-			Set<Long> sumSet = new HashSet<Long>();
-			ArrayList<Long> workspace = new ArrayList<Long>();
-			
-			boolean b = search1(sumSet, workspace, sArr, 0, 0);
-			
-			if(b){
-				workspace.clear();
-				search2(workspace, sArr, 0, 0);
-				out.format("Case #%d:\n", t);
-
-				out.format("%s\n", joinList(list1, " "));
-				out.format("%s", joinList(list2, " "));
+			for(int i = 1; i <= N; i ++){
+				int m = scanner.nextInt();
+				cArr[i] = new int[m + 1];
 				
-			} else {
-				out.format("Case #%d: Impossible", t);
-				
+				for(int j = 1; j <= m; j ++){
+					cArr[i][j] = scanner.nextInt(); 
+				}
 			}
 			
+			boolean[] workspace = new boolean[N+1];
+			boolean yes = false;
 			
-//			
-//			for(int i = 1; i < N; i ++){
-//				out.format(" %f", result[i]);
-//			}
-			
-			out.println("");
+			for(int i = 1; i < N; i ++){
+				Arrays.fill(workspace, false);
+				
+				workspace[i] = true;
+				yes = search(workspace, cArr, i);
+				
+				if(yes){
+					break;
+				}
+			}
+
+			out.format("Case #%d: %s", t, yes ? "Yes" : "No");
+
+			out.println();
 
 		}
 
@@ -70,62 +74,31 @@ public class Round1BC {
 	}
 
 
-	private static boolean search2(ArrayList<Long> workspace, long[] sArr,
-			int current, long sum) {
+
+
+	private static boolean search(boolean[] workspace, int[][] cArr, int i) {
 		
-		if(current >= sArr.length){
-			return false;
+
+		for(int j = 1; j < cArr[i].length; j ++){
+			if(workspace[ cArr[i][j] ]){
+				return true;
+			}
+			
+			workspace[cArr[i][j]] = true;
+			
+			boolean b = search(workspace, cArr, cArr[i][j]);
+			
+			if(b){
+				return true;
+			}
 		}
 		
-		sum += sArr[current];
-		workspace.add(sArr[current]);
 		
-		if(sum == target){
-			list2 = workspace;
-			return true;
-		}
-		
-		boolean b = search2(workspace, sArr, current + 1, sum);
-		
-		if(b){
-			return true;
-		}
-		
-		sum -= sArr[current];
-		workspace.remove(workspace.size() - 1);
-		
-		return search2(workspace, sArr, current + 1, sum);
+		return false;
 	}
 
 
-	private static boolean search1(Set<Long> sumSet,
-			ArrayList<Long> workspace, long[] sArr, int current, long sum) {
 
-		if(current >= sArr.length){
-			return false;
-		}
-		
-		sum += sArr[current];
-		workspace.add(sArr[current]);
-		
-		if(sumSet.contains(sum)){
-			list1 = new ArrayList<Long>(workspace);
-			target = sum;
-			return true;
-		}
-		
-		sumSet.add(sum);
-		
-		boolean b = search1(sumSet, workspace, sArr, current+1, sum);
-		
-		if(b){
-			return true;
-		}
-		
-		sum -= sArr[current];
-		workspace.remove(workspace.size() - 1);
-		return search1(sumSet, workspace, sArr, current + 1, sum);
-	}
 
 	static <E> String joinList(List<E> list, String sep){
 		

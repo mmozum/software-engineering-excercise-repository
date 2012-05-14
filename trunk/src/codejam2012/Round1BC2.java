@@ -7,17 +7,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
 
-public class Round1BC {
-	
+public class Round1BC2 {
 	
 	static List<Long> list1, list2;
-	static long target;
+	static int target;
 
 	public static void main(String[] args) throws Exception {
 
@@ -36,24 +36,92 @@ public class Round1BC {
 				sArr[i] = scanner.nextLong();
 			}
 
+			Arrays.sort(sArr);
+			
+			final int V = 1000007;
+			int[][] dp = new int[N + 1][V];
+			boolean[][] marks = new boolean[N + 1][V];
+			
+			
+			int n = 1, v = 0;
+			
+			found:
+			for(v = 1; v < V; v ++){
 
-			Set<Long> sumSet = new HashSet<Long>();
-			ArrayList<Long> workspace = new ArrayList<Long>();
+				for( n = 1; n <= N; n ++){
+					
+					long c = sArr[n-1];
+					
+					dp[n][v] = dp[n-1][v];
+					
+					if(v - c == 0){
+						dp[n][v] += 1;
+					} else if(v - c > 0){
+						dp[n][v] += dp[n-1][v - (int)c];
+					}
+					
+					if(v == c || (v - c > 0 && dp[n-1][v - (int)c] > 0)){
+						marks[n][v] = true;
+					}
+					
+					if(dp[n][v] >= 2){
+						
+//						System.out.println("n = " + n);
+//						System.out.println("v = " + v);
+						break found;
+					}
+				}
+			}
 			
-			boolean b = search1(sumSet, workspace, sArr, 0, 0);
 			
-			if(b){
-				workspace.clear();
-				search2(workspace, sArr, 0, 0);
+			int nn = n - 1;
+			int vv = v;
+			
+			if(n <= N && v < V){
+				list1 = new ArrayList<Long>();
+				while(n > 0 && dp[n][v] > 0){
+					
+					if(marks[n][v]){
+						list1.add(sArr[n-1]);
+						v -= sArr[n-1];
+					} 
+					n --;
+				}
+				
+				list2 = new ArrayList<Long>();
+				while(nn >= 0 && dp[nn][vv] > 0){
+					
+					if(marks[nn][vv]){
+						list2.add(sArr[nn-1]);
+						//System.out.print(sArr[nn] + ", ");
+						vv -= sArr[nn-1];
+					}
+					nn --;
+				}
+				
 				out.format("Case #%d:\n", t);
 
 				out.format("%s\n", joinList(list1, " "));
-				out.format("%s", joinList(list2, " "));
-				
+				out.format("%s\n", joinList(list2, " "));
+
 			} else {
-				out.format("Case #%d: Impossible", t);
+				out.format("Case #%d: Impossible\n", t);
 				
 			}
+			
+			
+//			if(b){
+//				workspace.clear();
+//				search2(workspace, sArr, 0, 0);
+//				out.format("Case #%d:\n", t);
+//
+//				out.format("%s\n", joinList(list1, " "));
+//				out.format("%s", joinList(list2, " "));
+//				
+//			} else {
+//				out.format("Case #%d: Impossible", t);
+//				
+//			}
 			
 			
 //			
@@ -61,7 +129,6 @@ public class Round1BC {
 //				out.format(" %f", result[i]);
 //			}
 			
-			out.println("");
 
 		}
 
@@ -69,63 +136,6 @@ public class Round1BC {
 		out.close();
 	}
 
-
-	private static boolean search2(ArrayList<Long> workspace, long[] sArr,
-			int current, long sum) {
-		
-		if(current >= sArr.length){
-			return false;
-		}
-		
-		sum += sArr[current];
-		workspace.add(sArr[current]);
-		
-		if(sum == target){
-			list2 = workspace;
-			return true;
-		}
-		
-		boolean b = search2(workspace, sArr, current + 1, sum);
-		
-		if(b){
-			return true;
-		}
-		
-		sum -= sArr[current];
-		workspace.remove(workspace.size() - 1);
-		
-		return search2(workspace, sArr, current + 1, sum);
-	}
-
-
-	private static boolean search1(Set<Long> sumSet,
-			ArrayList<Long> workspace, long[] sArr, int current, long sum) {
-
-		if(current >= sArr.length){
-			return false;
-		}
-		
-		sum += sArr[current];
-		workspace.add(sArr[current]);
-		
-		if(sumSet.contains(sum)){
-			list1 = new ArrayList<Long>(workspace);
-			target = sum;
-			return true;
-		}
-		
-		sumSet.add(sum);
-		
-		boolean b = search1(sumSet, workspace, sArr, current+1, sum);
-		
-		if(b){
-			return true;
-		}
-		
-		sum -= sArr[current];
-		workspace.remove(workspace.size() - 1);
-		return search1(sumSet, workspace, sArr, current + 1, sum);
-	}
 
 	static <E> String joinList(List<E> list, String sep){
 		

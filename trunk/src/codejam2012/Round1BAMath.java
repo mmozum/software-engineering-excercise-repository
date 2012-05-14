@@ -12,7 +12,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Scanner;
 
-public class Round1BA {
+public class Round1BAMath {
 	
 	static class Item {
 		int cost1;
@@ -40,56 +40,57 @@ public class Round1BA {
 			int N = scanner.nextInt();
 			int[] sArr = new int[N];
 			
+			int ind1 = -1;
+			int ind2 = -1;
 			double sum = 0;
-			
 			for(int i = 0; i < N; i ++){
 				sArr[i] = scanner.nextInt();
+				
+				if(ind1 == -1 || sArr[i] < sArr[ind1]){
+					ind1 = i;
+				}
 				
 				sum += sArr[i];
 			}
 			
+			for(int i = 0; i < N; i ++){
+				
+				if(i != ind1 && (ind2 == -1 || sArr[i] < sArr[ind2])){
+					ind2 = i;
+				}
+			}
+
 			double[] result = new double[N];
+			
+			double d = sum * 2 / N;
+			
+			double collect = 0.0;
+			int count = N;
 			
 			for(int i = 0; i < N; i ++){
 				
-				double lo = 0;
-				double hi = 1;
-				
-				while(hi - lo > 1e-7){
-					
-					double mi = (lo + hi) / 2;
-					
-					double score = sArr[i] + sum * mi;
-					
-					double totalY = 0;
-					
-					for(int j = 0; j < N; j ++){
-						if(j == i){
-							continue;
-						}
-						
-						double y = (score - sArr[j]) / sum;
-						
-						if(y < 0){
-							y = 0;
-						} else if(y > 1){
-							y = 1;
-						}
-						
-						totalY += y;
-					}
-					
-					if(totalY > 1 - mi){
-						hi = mi;
-					} else {
-						lo = mi;
-					}
+				result[i] = (d - sArr[i]) * 100 / sum;
+
+				if(result[i] < 0){
+					collect += result[i];
+					count --;
 				}
-				
-				result[i] = lo * 100;
 			}
 			
-			out.format("Case #%d: %s", t, joinArray(result, " "));
+			for(int i = 0; i < N; i ++){
+				
+				if(result[i] > 0){
+					result[i] += (collect/count);
+				} else {
+					result[i] = 0;
+				}
+			}
+
+			out.format("Case #%d: %f", t, result[0]);
+			
+			for(int i = 1; i < N; i ++){
+				out.format(" %f", result[i]);
+			}
 			
 			out.println("");
 
@@ -99,22 +100,7 @@ public class Round1BA {
 		out.close();
 	}
 
-	static String joinArray(double[] arr, String sep){
-		
-		if(arr == null || arr.length == 0){
-			return "";
-		}
-		
-		StringBuilder sb = new StringBuilder();
-		sb.append(arr[0]);
-		
-		for(int i = 1; i < arr.length; i ++){
-			sb.append(sep).append(arr[i]);
-		}
-		
-		return sb.toString();
-	}
-	
+
 	static class Output {
 
 		PrintWriter pw;
