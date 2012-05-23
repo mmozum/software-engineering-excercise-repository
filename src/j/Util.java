@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 public class Util {
 	
@@ -44,6 +45,53 @@ public class Util {
 		return sb.toString();
 	}
 	
+	/**
+	 * Generate an array of non-negative integers
+	 * @param size
+	 * @param range
+	 * @return
+	 */
+	public static int[] randomeArray(int size, int range){
+		
+		if(size <= 0 || range <= 0){
+			return null;
+		}
+		
+		Random rand = new Random();
+		
+		int[] arr = new int[size];
+		
+		for(int i = 0; i < size; i ++){
+			arr[i] = rand.nextInt(range);
+		}
+		
+		return arr;
+	}
+	
+	/**
+	 * compare the equality of two integer arrays
+	 * @param arr1
+	 * @param arr2
+	 * @return
+	 */
+	public static boolean arrayEquals(int[] arr1, int[] arr2){
+		
+		if(arr1 == null || arr2 == null){
+			return arr1 == arr2;
+		}
+		
+		if(arr1.length != arr2.length){
+			return false;
+		}
+		
+		for(int i = 0; i < arr1.length; i ++){
+			if(arr1[i] != arr2[i]){
+				return false;
+			}
+		}
+		
+		return true;
+	}
 
 	static class Output {
 

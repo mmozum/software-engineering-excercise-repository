@@ -6,7 +6,57 @@ public class MinimumWindowSubstring {
 
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+
+		String[][] tests = {
+				{"a","a"},
+				{"a","aa"},
+				{"a","b"},
+				{"a","ab"},
+				{"ab","a"},
+				{"ab","b"},
+				{"ab","A"},
+				{"aa","aa"},
+				{"aa","aaa"},
+				{"abc","a"},
+				{"abc","b"},
+				{"abc","c"},
+				{"abc","ab"},
+				{"abc","bc"},
+				{"abc","ac"},
+				{"abc","cba"},
+				{"abc","dabc"},
+				{"abc","aabc"},
+				{"aab","aab"},
+				{"bdab","ab"},
+				{"bba","ab"},
+				{"bbaa","aba"},
+				{"bbaac","aba"},
+				{"acbbaca","aba"},
+				{"ADOBECODEBANC","ABC"},
+				{"cabeca","cae"},
+				{"cfabeca","cae"},
+				{"cabefgecdaecf","cae"},
+				{"cabwefgewcwaefgcf","cae"},
+				{"abcabdebac","cda"},
+				{"abcabdebac","cea"},
+				{"acbdbaab","aabd"},
+				{"caaec","cae"},
+				{"caae","cae"},
+				{"acbba","aab"},
+				{"adobecodebanc","abc"},
+				{"adobecodebanc","abcda"},
+				{"adobecodebanc","abdbac"},
+				{"adobecodebancbbcaa","abc"},
+				{"acccabeb","ab"},
+				{"aaabdabcefaecbef","abc"},
+				{"coobdafceeaxab","abc"},
+				{"of_characters_and_as","aas"},
+		};
+		
+		for(String[] test : tests){
+//			System.out.println(minWindow(test[0], test[1]));
+		}
+		System.out.println(minWindow("adobecodebanc", "abcda"));
 
 	}
 	
@@ -19,85 +69,79 @@ public class MinimumWindowSubstring {
 			this.index = index;
 		}
 		
+		public String toString(){
+			return String.format("<%c, %d>", c, index);
+		}
+		
+	}
+	
+	static public String minWindow(String S, String T) {
+		
+		if(T.isEmpty()){
+			return "";
+		}
+		
+		LinkedList<Item> queue = new LinkedList<Item>();
+		int[] countS = new int[256];
+		int[] countT = new int[256];
+		
+		// populate countT
+		for(char c : T.toCharArray()){
+			countT[c] ++;
+		}
+		
+		int toGo = T.length();
+		int current = -1;
+		int minWindow = Integer.MAX_VALUE;
+		int minStart = -1;
+		
+		while(current < S.length()){
+			
+			int oldToGo = toGo;
+			// expand
+			while(++current < S.length()){
+				
+				char c = S.charAt(current);
+				if(T.indexOf(c) < 0){
+					continue;
+				}
+				
+				queue.add(new Item(c, current));
+				
+				if(countS[c] < countT[c]){
+					toGo --;
+				}
+				
+				countS[c] ++;
+				
+				char first = queue.getFirst().c;
+				if((oldToGo > 0 && toGo == 0) || countS[first] > countT[first]){
+					break;
+				}
+			}
+			
+			if(!queue.isEmpty() && toGo == 0){
+				// contract
+				char first = queue.getFirst().c;
+				while(countS[first] > countT[first]){
+					countS[first] --;
+					queue.removeFirst();
+					first = queue.getFirst().c;
+				}
+				
+				int min = queue.getLast().index - queue.getFirst().index;
+				if(min < minWindow){
+					minWindow = min;
+					minStart = queue.getFirst().index;
+				}
+			}
+		}
+		
+		if(minWindow == Integer.MAX_VALUE){
+			return "";
+		}
+		return S.substring(minStart, minStart + minWindow + 1);
 	}
 
-    public String minWindow(String S, String T) {
-        
-    	LinkedList<Item> queue = new LinkedList<Item>();
-    	Hashtable<Character, Integer> map = new Hashtable<Character, Integer>();
-    	Hashtable<Character, Integer> map0 = new Hashtable<Character, Integer>();
-    	
-    	int minLen = Integer.MAX_VALUE;
-    	int minStart = -1;
-    	int minEnd = -1;
-    	int toGo = T.length();
-    	
-    	for(char c : T.toCharArray()){
-    		
-    		if(map0.containsKey(c)){
-    			
-    			map0.put(c, map0.get(c) + 1);
-    			
-    		} else {
-    			
-    			map0.put(c, 1);
-    		}
-    	}
-    	
-    	for(int i = 0; i < S.length(); i ++){
-    		
-    		char c = S.charAt(i);
-    		
-    		if(T.indexOf(c) < 0){
-    			continue;
-    		}
 
-    		Item item = new Item(c, i);
-    		queue.add(item);
-    		
-    		if(map.containsKey(c)){
-    			
-    			int existingCount = map.get(c);
-    			
-    			if(existingCount < map0.get(c)){
-    				toGo --;
-    			}
-    			
-    			map.put(c, existingCount + 1);
-    			
-    			while(!queue.isEmpty()){
-
-    				Item tmp = queue.getFirst();
-
-    				if(map.get(tmp.c) <= map0.get(tmp.c)){
-    					break;
-    				}
-
-    				map.put(tmp.c, map.get(tmp.c) - 1);
-    				queue.removeFirst();
-    			}
-
-    		} else {
-    			map.put(c, 1);
-    			toGo --;
-    		}
-    		
-    		
-    		if(toGo == 0){
-    			int len = i - queue.getFirst().index + 1;
-    			if(len < minLen){
-    				minLen = len;
-    				minStart = queue.getFirst().index;
-    				minEnd = i;
-    			}
-    		}
-    	}
-    	
-    	
-    	if(minStart == -1){
-    		return "";
-    	} else {
-    		return S.substring(minStart, minEnd + 1);
-    	}
-    }
 }
