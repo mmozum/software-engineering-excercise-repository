@@ -1,5 +1,7 @@
 package ihasleetcode;
 
+import java.util.Arrays;
+
 public class StrStr {
 
 	/*
@@ -10,146 +12,68 @@ public class StrStr {
 	 */
 	
 	public static void main(String[] args) {
+//		System.out.println(Arrays.toString(kmpPreprocess("GCAGAGAG")));
+//		System.out.println(Arrays.toString(kmpPreprocess("issip")));
 		System.out.println(strStr("mississippi", "issip"));
 		
 	}
 
     static public String strStr(String haystack, String needle) {
-        return strStrKMP2(haystack, needle);
+        return strStrKMP(haystack, needle);
         
     }
     
     static String strStrKMP(String haystack, String needle) {
     	
-    	if(needle == null || haystack == null){
-    		return null;
-    	}
-    	
     	if(needle.isEmpty()){
     		return haystack;
     	}
     	
-    	if(haystack.isEmpty()){
-    		return null;
-    	}
-
-    	int[] failureTable = kmpPreprocess(needle); 
+    	int[] table = kmpPreprocess(needle);
     	
-    	int m = haystack.length();
-    	int n = needle.length();
-    	
-    	int i = 0, j = 0;
-    	while(true){
+    	int i = 0;
+    	int j = 0;
+    	while(i < haystack.length()){
     		
-    		if(j == n || i == m){
-    			break;
-    		}
-    		    		
-    		if(haystack.charAt(i) == needle.charAt(j)){
-    			j ++;
-    			i ++;
-    		} else if (j > 0){
-    			j = failureTable[j];
-    		} else {
-    			i ++;
-    		}
-    	}
-        
-    	return (j==n) ? haystack.substring(i - n) : null;
-    }
-
-	private static int[] kmpPreprocess(String needle) {
-		
-		char[] arr = needle.toCharArray();
-
-		int[] table = new int[arr.length+1];
-		table[0] = table[1] = 0;
-		
-		int k = -1;
-		int i = 0;
-		
-		for(i = 2; i < table.length; i ++){
-			
-			k = table[i - 1];
-			
-			while(true){
-				if(arr[k] == arr[i - 1]){
-					table[i] = k + 1;
-					break;
-				}
-				
-				if(k == 0){
-					table[k] = 0;
-					break;
-				}
-				
-				k = table[k];
-			}
-		}
-		
-		return table;
-	}
-	
-	
-    static String strStrKMP2(String haystack, String needle) {
-    	
-    	if(needle == null || haystack == null){
-    		return null;
-    	}
-    	
-    	if(needle.isEmpty()){
-    		return haystack;
-    	}
-    	
-    	if(haystack.isEmpty()){
-    		return null;
-    	}
-
-    	int[] failureTable = kmpPreprocess2(needle); 
-    	
-    	int m = haystack.length();
-    	int n = needle.length();
-    	
-    	int i = 0, j = 0;
-    	
-    	while(i < m){
-    		
-    		while(j >= 0 && haystack.charAt(i) != needle.charAt(j)){
-    			j = failureTable[j];
+    		while(j >= 0 && needle.charAt(j) != haystack.charAt(i)){
+    			j = table[j];
     		}
     		
     		i ++;
-    		j ++;
-    		
-    		if(j == n){
-    			return haystack.substring(i - n);
+   			j ++;
+   			
+    		if(j == needle.length()){
+    			return haystack.substring(i - needle.length());
     		}
     	}
     	
     	return null;
-
     }
-    
-	private static int[] kmpPreprocess2(String needle) {
-		
-		char[] arr = needle.toCharArray();
 
-		int[] table = new int[arr.length+1];
-		table[0] = -1;
+	private static int[] kmpPreprocess(String needle) {
+
+		int[] table = new int[needle.length() + 1];
 		
-		int k = -1;
 		int i = 0;
+		int j = table[0] = -1;
 		
-		while(i < arr.length){
+		while(i < needle.length() - 1){
 			
-			while(k >= 0 && arr[k] != arr[i]){
-				k = table[k];
+			while(j >= 0 && needle.charAt(j) != needle.charAt(i)){
+				j = table[j];
 			}
-			i++;
-			k++;
-			table[i] = k;
+			
+			i ++;
+			j ++;
+			
+			if(needle.charAt(i) == needle.charAt(j)){
+				table[i] = table[j];
+			} else {
+				table[i] = j;
+			}
 		}
 		
 		return table;
 	}
+    
 }

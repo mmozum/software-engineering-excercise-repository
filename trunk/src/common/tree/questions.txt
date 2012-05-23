@@ -1,0 +1,28 @@
+
+Convert a min heap to BST without changing its structure and of course no extra space.
+Convert BST to heap
+
+check if  a tree is BST
+Convert a doubly linked list to a binary search tree in place.
+print binary tree by level/zigzag
+
+Given a tree in which each node is an integer and an array with a set of integers, determine if all the elements of the array are present in the tree by visiting each node in the tree at most once.
+
+cache!
+Design a efficient cache, supporting retrieval of maximum element in cache along with other normal cache operations.
+Suggest data structures to be used,also tell the complexities for each of the operations.
+
+synchronization
+
+Design an LRU cache with all the operations including getting the least recently used item to be O(1).
+
+
+[1] Design a layer in front of a system which cache the last n requests and the responses to them from the system.
+what data structure would you use to implement the cache in the later to support following operations.
+[a] When a request comes look it up in the cache and if it hits then return the response from here and do not pass the request to the system
+[b] If the request is not found in the cache then pass it on to the system
+[c] Since cache can only store the last n requests, Insert the n+1th request in the cache and delete one of the older requests from the cache
+The objective is to achieve all the three operations in O(1).
+
+Design and implement APIs for caching web pages.
+clarification: cache web pages on client by URL with a max cache size.
