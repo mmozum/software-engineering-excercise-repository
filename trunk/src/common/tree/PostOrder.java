@@ -47,35 +47,32 @@ public class PostOrder {
 	 */
 	public static <T extends Comparable<?>>void postorder_stack(Node<T> root){
 		
+		Node<T> previous = null;
 		Stack<Node<T>> stack = new Stack<Node<T>>();
 		
-		Node<T> previous = null;
-		
-		if(root != null){
+		while(root != null){
 			stack.push(root);
+			root = root.left;
 		}
 		
 		while(!stack.isEmpty()){
-
-			Node<T> node = stack.pop();
 			
-			if(previous == node.right ||
-					previous == node.left && node.right == null ||
-					node.left == null && node.right == null){
-				System.out.print(node.data.toString() + " ");
-				previous = node;
-			} else{
-				stack.push(node);
+			Node<T> current = stack.pop();
+			
+			if(current.right == previous || current.right == null){
+				System.out.print(current.data + " ");
+				previous = current;
+			} else {
+				stack.push(current);
+				current = current.right;
 				
-				if(node.left != null && previous != node.left){
-					stack.push(node.left);
-				} else {
-					assert(node.right != null && previous != node.right);
-					stack.push(node.right);
+				while(current != null){
+					stack.push(current);
+					current = current.left;
 				}
 			}
-			
 		}
+		
 	}
 	
 	/**
