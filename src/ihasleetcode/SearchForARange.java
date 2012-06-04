@@ -1,6 +1,11 @@
 package ihasleetcode;
 
-import java.util.LinkedList;
+/**
+ * Given a sorted array of integers, find the starting and ending 
+ * position of a given target value.
+ * 
+ * @author Jason Huang
+ */
 
 public class SearchForARange {
 

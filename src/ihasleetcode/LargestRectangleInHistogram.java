@@ -6,56 +6,60 @@ public class LargestRectangleInHistogram {
 
 	public static void main(String[] args) {
 
-		//int[] in = {2,1,2};
-		int size = Integer.MAX_VALUE / 100;
-		
-		int[] in = new int[size];
-		Math.ceil(1.5);
+		int[] in = {2,1,2};
 		System.out.println(largestRectangleArea(in));
 
 	}
 	
-	
-	// this is the second version that i've written
-	static public int largestRectangleArea(int[] height) {
-		
-		if(height == null || height.length == 0){
-			return 0;
+	static class Item{
+		int index, height;
+
+		public Item(int index, int height) {
+			super();
+			this.index = index;
+			this.height = height;
 		}
 		
-		int max = 0;
-		Stack<Integer> stack = new Stack<Integer>();
+	}
+	
+	static public int largestRectangleArea(int[] height) {
 		
+		Stack<Item> stack = new Stack<Item>();
+		
+		int maxArea = 0;
 		for(int i = 0; i < height.length; i ++){
 			
-			int lastIndex = i;
-			while(!stack.isEmpty() && height[i] < height[stack.peek()]){
-				lastIndex = stack.pop();
-				int area = height[lastIndex] * (i - lastIndex);
-				if(area > max){
-					max = area;
-				}
-				
-				height[lastIndex] = height[i];
+			if(stack.isEmpty() || height[i] > stack.peek().height){
+				stack.push(new Item(i, height[i]));
+				continue;
 			}
 			
-			if(stack.isEmpty() || height[lastIndex] > height[stack.peek()]){
-				stack.push(lastIndex);
-				continue;
+			Item item = null;
+			while(!stack.isEmpty() && height[i] < stack.peek().height){
+				item = stack.pop();
+				int area = item.height * (i - item.index);
+				if(area > maxArea){
+					maxArea = area;
+				}
+			}
+			
+			if(item != null){
+				item.height = height[i];
+				stack.push(item);
 			}
 		}
 		
 		while(!stack.isEmpty()){
-			int index = stack.pop();
-			int area = height[index] * (height.length - index);
-			if(area > max){
-				max = area;
+			Item item = stack.pop();
+			int area = (height.length - item.index) * item.height;
+			if(area > maxArea){
+				maxArea = area;
 			}
 		}
 		
-		return max;
+		return maxArea;
 	}
-	
+
 	
 //    // this is the first version that i've written
 //    static public int largestRectangleArea(int[] height) {
