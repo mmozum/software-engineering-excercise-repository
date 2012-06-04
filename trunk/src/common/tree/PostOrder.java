@@ -74,6 +74,7 @@ public class PostOrder {
 		}
 		
 	}
+
 	
 	/**
 	 * Use parent pointer + a local previous pointer
@@ -84,24 +85,26 @@ public class PostOrder {
 			return;
 		}
 		
-		Node<T> current = root;
 		Node<T> previous = null;
+		Node<T> current = root;
+		
+		while(current.left != null){
+			current = current.left;
+		}
 		
 		while(current != null){
-			
-			if(previous == current.right || 
-					previous == current.left && current.right == null ||
-					current.left == null && current.right == null){
-				System.out.print(current.data.toString() + " ");
+			if(current.right == previous || current.right == null){
+				System.out.print(current.data + " ");
 				previous = current;
 				current = current.parent;
-				
-			} else if(previous == current.left || current.left == null){
-				assert(current.right != null);
-				current = current.right;
 			} else {
-				current = current.left;
+				
+				current = current.right;
+				while(current.left != null){
+					current = current.left;
+				}
 			}
 		}
+		
 	}
 }

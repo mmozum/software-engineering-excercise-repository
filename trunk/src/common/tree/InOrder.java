@@ -52,7 +52,6 @@ public class InOrder {
 	public static <T extends Comparable<?>>void inorder_stack(Node<T> root){
 		
 		Stack<Node<T>> stack = new Stack<Node<T>>();
-		
 		while(root != null){
 			stack.push(root);
 			root = root.left;
@@ -60,19 +59,13 @@ public class InOrder {
 		
 		while(!stack.isEmpty()){
 			Node<T> node = stack.pop();
+			System.out.print(node.data + " ");
 			
-			System.out.print(node.data.toString() + " ");
-			
-			if(node.right != null){
-				stack.push(node.right);
-				node = node.right.left;
-				
-				while(node != null){
-					stack.push(node);
-					node = node.left;
-				}
+			node = node.right;
+			while(node != null){
+				stack.push(node);
+				node = node.left;
 			}
-			
 		}
 	}
 	
@@ -116,6 +109,7 @@ public class InOrder {
 	/**
 	 * Morris Traversal
 	 */
+	
 	public static <T extends Comparable<?>> void inorder_morris(Node<T> root){
 		
 		Node<T> current = root;
