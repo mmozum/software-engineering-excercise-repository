@@ -1,7 +1,5 @@
 package ihasleetcode;
 
-import java.util.Arrays;
-
 public class StrStr {
 
 	/*

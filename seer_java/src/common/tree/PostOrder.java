@@ -7,7 +7,6 @@ public class PostOrder {
 
 	public static void main(String[] args) {
 		
-		
 		List<Node<Integer>> list = Util.getTrees();
 		
 		
