@@ -4,7 +4,6 @@ Convert BST to heap
 
 check if  a tree is BST
 Convert a doubly linked list to a binary search tree in place.
-print binary tree by level/zigzag
 
 Given a tree in which each node is an integer and an array with a set of integers, determine if all the elements of the array are present in the tree by visiting each node in the tree at most once.
 

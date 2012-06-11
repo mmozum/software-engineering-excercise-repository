@@ -40,69 +40,114 @@ public class IsNumber {
 
 	}
 	
-    static public boolean isNumber(String s) {
-    	
-    	if(s == null){
-    		return false;
-    	}
-    	
-    	char[] sArr = s.toLowerCase().toCharArray();
-    	
-    	boolean isValidSoFar = false;
-    	boolean seenDecimalPoint = false;
-    	boolean seenE = false;
-    	
-    	int idx = 0;
-    	while(idx < sArr.length && sArr[idx] == ' '){
-    		++ idx;
-    	}
-    	
-    	if(idx < sArr.length && (sArr[idx] == '+' || sArr[idx] == '-')){
-    		++ idx;
-    	}
-    	
-    	char c;
-    	
-    	while(idx < sArr.length && (c = sArr[idx]) != ' '){
-    		
-    		if(Character.isDigit(c)){
-    			isValidSoFar = true;
-    		} else if(c == '.'){
-    			if(seenDecimalPoint || seenE){
-    				isValidSoFar = false;
-    				break;
-    			} else {
-    				seenDecimalPoint = true;
-    			}
-    		} else if(c == 'e') {
-    			if(!isValidSoFar || seenE){
-    				isValidSoFar = false;
-    				break;
-    			} else {
-    				seenE = true;
-    				isValidSoFar = false;
-    			}
-    		} else if(c == '+' || c == '-'){
-    			if(sArr[idx-1] != 'e'){
-    				isValidSoFar = false;
-    				break;
-    			}
-    		} else {
-				isValidSoFar = false;
+	static public boolean isNumber(String s) {
+		
+		if(s == null){
+			return false;
+		}
+		char[] arr = s.trim().toLowerCase().toCharArray();
+		
+		boolean isValid = false;
+		boolean seenPoint = false;
+		boolean seenE = false;
+		boolean seenDigit = false;
+		
+		int idx = 0;
+		
+		while(idx < arr.length){
+			char c = arr[idx];
+			isValid = false;
+			if(c == '+' || c == '-'){
+				if(idx > 0 && arr[idx-1] != 'e'){
+					break;
+				}
+			} else if(c == '.'){
+				if(!seenPoint && !seenE){
+					seenPoint = true;
+					isValid = seenDigit;
+				} else {
+					break;
+				}
+			} else if(Character.isDigit(c)){
+				seenDigit = true;
+				isValid = true;
+			} else if(c == 'e'){
+				if(seenE || !seenDigit){
+					break;
+				}
+				seenE = true;
+			} else {
 				break;
-    		}
-    		
-    		++ idx;
-    	}
-    	
-    	while(idx < sArr.length){
-    		if(sArr[idx] != ' '){
-				isValidSoFar = false;
-				break;
-    		}
-    		++ idx;
-    	}
-
-        return isValidSoFar;
-    }
+			}
+			idx++;
+		}
+		
+		return isValid;
+	}
+	
+//    static public boolean isNumber(String s) {
+//    	
+//    	if(s == null){
+//    		return false;
+//    	}
+//    	
+//    	char[] sArr = s.toLowerCase().toCharArray();
+//    	
+//    	boolean isValidSoFar = false;
+//    	boolean seenDecimalPoint = false;
+//    	boolean seenE = false;
+//    	
+//    	int idx = 0;
+//    	while(idx < sArr.length && sArr[idx] == ' '){
+//    		++ idx;
+//    	}
+//    	
+//    	if(idx < sArr.length && (sArr[idx] == '+' || sArr[idx] == '-')){
+//    		++ idx;
+//    	}
+//    	
+//    	char c;
+//    	
+//    	while(idx < sArr.length && (c = sArr[idx]) != ' '){
+//    		
+//    		if(Character.isDigit(c)){
+//    			isValidSoFar = true;
+//    		} else if(c == '.'){
+//    			if(seenDecimalPoint || seenE){
+//    				isValidSoFar = false;
+//    				break;
+//    			} else {
+//    				seenDecimalPoint = true;
+//    			}
+//    		} else if(c == 'e') {
+//    			if(!isValidSoFar || seenE){
+//    				isValidSoFar = false;
+//    				break;
+//    			} else {
+//    				seenE = true;
+//    				isValidSoFar = false;
+//    			}
+//    		} else if(c == '+' || c == '-'){
+//    			if(sArr[idx-1] != 'e'){
+//    				isValidSoFar = false;
+//    				break;
+//    			}
+//    		} else {
+//				isValidSoFar = false;
+//				break;
+//    		}
+//    		
+//    		++ idx;
+//    	}
+//    	
+//    	while(idx < sArr.length){
+//    		if(sArr[idx] != ' '){
+//				isValidSoFar = false;
+//				break;
+//    		}
+//    		++ idx;
+//    	}
+//
+//        return isValidSoFar;
+//    }
 }

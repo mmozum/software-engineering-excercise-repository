@@ -2,6 +2,7 @@ package common.tree;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 public class LeveledOrder {
 
@@ -14,21 +15,101 @@ public class LeveledOrder {
 		for(Node<Integer> root : list){
 			
 			System.out.println("-------------------------------");
-			System.out.println("leveled");
-			leveled(root);
+			System.out.println("leveled1");
+			leveled1(root);
 			System.out.println();
 			
+			System.out.println("-------------------------------");
+			System.out.println("leveled2");
+			leveled2(root);
+			System.out.println();
+			
+			System.out.println("-------------------------------");
+			System.out.println("pointToRight");
+			pointToRight(root);
+			System.out.println();
+
 			System.out.println("-------------------------------");
 			System.out.println("zigzaged");
 			zigzaged(root);
 			System.out.println();
 		}
 	}
+	
+	
+	public static <T extends Comparable<?>> void pointToRight(Node<T> root){
+		
+		Queue<Node<T>> queue = new LinkedList<Node<T>>();
+		
+		if(root != null){
+			queue.offer(root);
+			queue.offer(null);
+		}
+		
+		while(!queue.isEmpty()){
+			
+			Node<T> node = queue.remove();
+			
+			if(node == null){
+				System.out.println();
+				if(!queue.isEmpty()){
+					queue.offer(null);
+				}
+			} else {
+				System.out.print("[" + node + " -> " + queue.element() + "]");
+				
+				if(node.left != null){
+					queue.offer(node.left);
+				}
+				
+				if(node.right != null){
+					queue.offer(node.right);
+				}
+			}
+		}
+	}
 
 	/**
 	 * Print a tree by level
+	 * Used one queue
 	 */
-	public static <T extends Comparable<?>> void leveled(Node<T> root){
+	public static <T extends Comparable<?>> void leveled1(Node<T> root){
+		
+		Queue<Node<T>> queue = new LinkedList<Node<T>>();
+		
+		if(root != null){
+			queue.offer(root);
+			queue.offer(null);
+		}
+		
+		while(!queue.isEmpty()){
+			
+			Node<T> node = queue.remove();
+			
+			if(node == null){
+				System.out.println();
+				if(!queue.isEmpty()){
+					queue.offer(null);
+				}
+			} else {
+				System.out.print(node + " ");
+				
+				if(node.left != null){
+					queue.offer(node.left);
+				}
+				
+				if(node.right != null){
+					queue.offer(node.right);
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Print a tree by level
+	 * Used two queues
+	 */
+	public static <T extends Comparable<?>> void leveled2(Node<T> root){
 		
 		LinkedList<Node<T>> currentLevel = new LinkedList<Node<T>>();
 		LinkedList<Node<T>> nextLevel = new LinkedList<Node<T>>();
