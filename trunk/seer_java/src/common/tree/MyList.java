@@ -5,6 +5,7 @@ package common.tree;
  * @author Jason Huang
  *
  */
+
 public class MyList {
 	
 	public static <T extends Comparable<?>> Node<T> reverse_iterative(Node<T> list){
@@ -130,18 +131,55 @@ public class MyList {
 	}
 
 	/**
+	 * 问了一个链表，1－>2->3->4->5, 每两个交换，2－>1->4->3->5,如果单数
+     * 情况返回最后一个,  要求interative和recursive.
+	 * @param head
+	 * @return
+	 */
+	static <T extends Comparable<?>> Node<T> reverse2_recursive(Node<T> head){
+		if(head == null || head.right == null){
+			return head;
+		}
+		
+		Node<T> newHead = head.right;
+		head.right = reverse2_recursive(newHead.right);
+		newHead.right = head;
+		return newHead;
+	}
+	
+	static <T extends Comparable<?>> Node<T> reverse2_iterative(Node<T> head){
+
+		Node<T> dummy = new Node<T>();
+		dummy.right = head;
+		
+		Node<T> current = dummy, next;
+		
+		while(current.right != null && current.right.right != null){
+			next = current.right;
+			current.right = next.right;
+			next.right = current.right.right;
+			current.right.right = next;
+			current = next;
+		}
+		
+		return dummy.right;
+	}
+	
+	
+	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 
-//		Node<Integer> list = Util.generateRandomList(10);
-//		Util.printList(list);
-//		System.out.println("=================");
-//		list = reverse_recursive(list);
-//		Util.printList(list);
+		Node<Integer> list = Util.generateRandomList(9);
+		Util.printList(list);
+		System.out.println("=================");
+		list = reverse2_recursive(list);
+		Util.printList(list);
+		System.out.println("=================");
+		list = reverse2_iterative(list);
+		Util.printList(list);
 		
-		findCross();
-
 	}
 
 }

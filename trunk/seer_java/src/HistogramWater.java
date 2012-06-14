@@ -6,6 +6,8 @@
  * @author jjhuang
  *
  */
+
+
 public class HistogramWater {
 
 	/**
@@ -20,14 +22,16 @@ public class HistogramWater {
 	        { 3, 2, 1 },
 	        { 1, 2, 3, 2, 1 },
 	        { 5, 4, 3, 6, 2, 3 },
-	        { 3, 1, 8, 1, 9, 1, 5 } };
+	        { 3, 1, 8, 1, 9, 1, 5 },
+        	{0,1,0,2,1,0,1,3,2,1,2,1},
+        };
         
         int[] a = new int[]
-        { 2, 5, 0, 0, 0, 4, 13 };
+        { 2, 5, 0, 0, 0, 4, 13, 6 };
 
         for (int i = 0; i < q.length; i++)
         {
-            int r = water(q[i]);
+            int r = water2(q[i]);
             if (a[i] == r)
                 System.out.print("[Pass]");
             else
@@ -65,6 +69,36 @@ public class HistogramWater {
 			area += Math.min(fromLeft[i], fromRight[i]) - histogram[i];
 		}
 		return area;
+	}
+	
+	static int water2(int[] arr){
+		
+		int sum = 0;
+		
+		int highestIdx = 0;
+		
+		for(int i = 0; i < arr.length; i ++){
+			if(arr[i] > arr[highestIdx]){
+				highestIdx = i;
+			}
+		}
+		
+		for(int i = 0, level = arr[0]; i < highestIdx; i ++){
+			if(arr[i] > level){
+				level = arr[i];
+			} else {
+				sum += level - arr[i];
+			}
+		}
+		
+		for(int i = arr.length - 1, level = arr[arr.length - 1]; i > highestIdx; i --){
+			if(arr[i] > level){
+				level = arr[i];
+			} else {
+				sum += level - arr[i];
+			}
+		}
+		return sum;		
 	}
 
 }
