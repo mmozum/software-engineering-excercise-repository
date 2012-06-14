@@ -1,0 +1,134 @@
+/**
+ * Returns a^b, as the standard mathematical exponentiation function
+ */
+public double pow(double a, int b) {
+    
+    if(a == 0 && b <= 0){
+        throw new IllegalArgumentException();
+    }
+    
+    if(b == 0){
+        return 1;
+    }
+    
+    if(b < 0){
+        a = 1/a;
+        b = -b;
+    }
+    
+    int result = pow(a, b / 2);
+    result *= result;
+    
+    if(b % 2 == 1){
+        result *= a;
+    }
+    
+    return result;
+}
+
+a = 0 b = -1 ==> exception
+a = 3 b = 2
+
+pow(3, 2) return 9 => pow(3, 1) return 3 => pow(3, 0) return 1
+
+a = -3 b = -3
+pow(-3, -3)
+   a == -0.3333
+   b == 3
+   pow(-0.333, 1)
+      pow(-0.333, 0)
+         return 1
+      result == 1
+      result == -0.3333
+      return -0.33333
+   result == -0.3333
+   result == (1/9) // line 20
+   result == (1/9) * (-0.3333)
+   
+   
+public interface TwoSum {
+    /**
+     * Stores @param input in an internal data structure.
+     */
+    public void store(int input);
+ 
+    /**
+     * Returns true if there is any pair of numbers in the internal data structure which
+     * have ~sum @param test, and false otherwise.
+     * For example, if the numbers 1, -2, 3, and 6 had been stored,
+     * the method should return true for 4, -1, and 9, but false for 10, 5, and 0
+     */
+    public boolean test(int test);
+}
+   
+////////////////////////////////////////////////////////////
+import java.util.*;
+
+public class TwoSumImpl implements TwoSum{
+
+    HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+
+    @Override
+    public void store(int input){
+        if(map.containsKey(input)){
+            map.put(input, map.get(input) + 1);
+        } else {
+            map.put(input, 1);
+        }
+    }
+    
+    @Override
+    public boolean test(int test){
+    
+        
+        for(int key : map.keySet()){
+        
+            if(key * 2 == test){
+                if(map.get(key) >= 2)
+                    return true;
+            } else if(map.containsKey(test - key)){
+                return true;
+            }
+        }
+        
+        return false;
+    }
+}
+   
+         
+store: 1, -2, 3, and 6 
+search for 4, -1, and 9, but false for 10, 5, and 0
+search for 4:
+
+////////////////////////////////////////////////////////////
+import java.util.*;
+
+public class TwoSumImpl2 implements TwoSum{
+
+    HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+    HashSet<Integer> set = new HashSet<Integer>();
+
+    @Override
+    public void store(int input){
+        
+        for(int key : map.keySet()){
+            set.add( key + input );
+        }
+        
+        if(!map.containsKey(input)){
+            map.put(input, 0);
+        }
+        
+        if(map.get(input) >= 2){
+            return ;
+        }
+
+        map.put(input, map.get(input) + 1);
+
+    }
+    
+    @Override
+    public boolean test(int test){
+        return set.contains(test);
+    }
+}

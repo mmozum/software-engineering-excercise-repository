@@ -92,6 +92,40 @@ public class Util {
 		
 		return true;
 	}
+	
+	/**
+	 * Generate an array of randomized integer
+	 * @param n - size of generated array
+	 * @return
+	 */
+	public static int[] generateRandomArray(int n){
+		
+		if(n < 0){
+			return null;
+		}
+		
+		// generate an ordered array
+		int[] arr = new int[4 * n];
+		
+		for(int i = 1; i < arr.length; i ++){
+			arr[i] = i;
+		}
+		
+		int[] resultArr = new int[n];
+		Random rand = new Random();
+		
+		// shuffle the first n elements as output
+		for(int i = 0; i < n; i ++){
+			int j = i + rand.nextInt(arr.length - i);
+			int tmp = arr[i];
+			arr[i] = arr[j];
+			arr[j] = tmp;
+			resultArr[i] = arr[i];
+		}
+		
+		return resultArr;
+	}
+	
 
 	static class Output {
 

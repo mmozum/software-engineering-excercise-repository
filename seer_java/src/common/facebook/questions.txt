@@ -1,0 +1,37 @@
+发信人: xicheng17 (super), 信区: JobHunting
+标  题: fb面试题【转】
+发信站: BBS 未名空间站 (Wed Nov  9 20:42:44 2011, 美东)
+
+不知道发过没，在其他地方看到的。
+Implement a function
+char* readLine();
+which returns single lines from a buffer. To read the buffer, you can makes
+use of a function
+int read(char* buf, int len)
+which fills buf with upto len chars and returns the actual number of chars
+filled in. Function readLine can be called as many times as desired. If
+there is no valid data or newline terminated string available, it must block
+. In order to block, it can use read function which in turn will block when
+it doesn't have anything to fill the buf.
+
+
+Implement a function string balanceParanthesis(string s); which given a
+string s consisting of some parenthesis returns a string s1 in which
+parenthesis are balanced and differences between s and s1 are minimum.
+Eg - "(ab(xy)u)2)" -> "(ab(xy)u)2"
+")))(((" -> ""
+
+How will you design TinyUrl?
+
+How will you design facebook newsfeed. Focus was on a design which could
+handle the huge number of status updates and display them on each of the
+user's friend's wall.
+
+
+
+--
+
+※ 来源:·WWW 未名空间站 海外: mitbbs.com 中国: mitbbs.cn·[FROM: 76.180.]
+全文链接  ：http://mitbbs.com/article1/JobHunting/31985697_3_0.html
+同主题链接：http://mitbbs.com/article_t/JobHunting/31985697.html
+[顶]0   [踩]0 [操作]顶:D 踩:T
