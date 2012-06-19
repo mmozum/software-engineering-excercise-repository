@@ -1,6 +1,6 @@
 package common.dp;
 public class SearchSequence {
-
+	
 	static String min(String str, String word) {
 		int n = str.length();
 		int m = word.length();

@@ -1,12 +1,19 @@
 package common.knapsack;
 
+import java.util.Arrays;
+
 public class Complete {
 
 
 	public static void main(String[] args) {
 		
-		int[] in = {1, 5, 10, 25};
-		System.out.println(howMany(in, 11));
+		//int[] in = {1, 5, 10, 25, 100, 500, 1000, 2000, 5000, 10000};
+		int[] in = {1, 5, 10, 25, 100, 500, 1000, 2000};
+		//System.out.println(howMany(in, 5));
+		//System.out.println(howMany2(in, 55555));
+		System.out.println(howMany2(in, 555555));
+		System.out.println(howMany2(in, 50000000));
+		//System.out.println(howMany2(in, 100000000));
 	}
 
 	//How many ways to pack
@@ -27,4 +34,27 @@ public class Complete {
 		
 		return dp[n];
 	}
+	
+	public static long howMany2(int[] arr, int n){
+		long[] dp = new long[n + 1];
+		
+		for(int i : arr){
+			for(int j = i; j <= n; j ++){
+				dp[j] += (j==i) ? 1 : dp[j-i];
+			}
+		}
+		
+		return dp[n];
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

@@ -55,5 +55,17 @@ public final class JavaPitfalls {
 		System.out.println(i.equals(ch)); // false
 		
 	}
+	
+	@SuppressWarnings("unused")
+	static void typeCast() {
+		System.out.println("=============================================");
+		System.out.println("Pitfall [typecast 1]");
+		
+		//Type mismatch: cannot convert from int[] to Object
+		//Object obj = {1};
+		Object obj2 = new int[]{1};
+		Object[][][] obj3 = {null,null};
+		
+	}
 
 }
