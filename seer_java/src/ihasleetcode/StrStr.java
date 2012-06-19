@@ -1,5 +1,7 @@
 package ihasleetcode;
 
+import java.util.Arrays;
+
 public class StrStr {
 
 	/*
@@ -12,7 +14,9 @@ public class StrStr {
 	public static void main(String[] args) {
 //		System.out.println(Arrays.toString(kmpPreprocess("GCAGAGAG")));
 //		System.out.println(Arrays.toString(kmpPreprocess("issip")));
-		System.out.println(strStr("mississippi", "issip"));
+//		System.out.println(strStr("mississippi", "issip"));
+		
+		System.out.println(Arrays.toString((kmpPreprocess("GCAGAGAG"))));
 		
 	}
 
@@ -50,7 +54,7 @@ public class StrStr {
 
 	private static int[] kmpPreprocess(String needle) {
 
-		int[] table = new int[needle.length() + 1];
+		int[] table = new int[needle.length() ];
 		
 		int i = 0;
 		int j = table[0] = -1;

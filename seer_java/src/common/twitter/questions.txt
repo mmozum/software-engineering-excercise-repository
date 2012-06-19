@@ -1,0 +1,48 @@
+1) Find the median on N machines;
+2) Stream sampling;
+3) How to evaluate a classification algorithm; How to compare two algorithms;
+4) How to maintain the IP which visits Twitter;
+5) Describe Learning to rank;
+
+Given n sorted lists, each of size k, find a solution to merge them into one big list.
+
+Find the first common parent in a tree
+
+给一个二叉树，找出最长不重复的结点间路径。
+
+
+希望对要面他家的人有帮助。
+
+1 面，印度女面的。
+
+1。 找出一个array中的所有两数的和是一个给定的值， 我用hashset 作的。
+
+2。 找出一个tree中所有pair of nodes with path of d。
+其中tree中的node 给的是个array of nodes， node 只知道自己的父亲。 要先写程序
+算出tree。
+
+2面， 貌似美国人。
+
+1。 把一个integer convert 一下， 比如 input 是123， 生成321。 延伸一下如果是
+负数怎么办。
+
+2。 给一个tree， 如何计算从root到leaf的最短路径。 我先给出recursive method，
+ 后来又用BFS， level by level visit， 再improve 用两个queue BFS。
+
+这轮面的挺好， 面完recruiter 马上就给了onsite， 当我发信给时间的时候， 又反
+悔，说要第三面。
+
+三面，貌似美国人。
+
+全是design题。一个用户在brower里打他家会发生什么， 大概是想考应该如何
+organize它的用户， 给了陷阱问是不是用database， 我一下子跳了进去， 说是。后
+来想应该用big table 和DHT。
+
+ 给你一堆tweet， 如何就算出每个word的count. 其中我当时认为word 可以用
+whitespace分开。 但是应该有其他的分界符， 比如#什么的，没想到这里。
+
+其他就是你如何improve twitter， 如何计算trend(词的频率是不够的）
+， 等等。
+
+三面面挂了。
+

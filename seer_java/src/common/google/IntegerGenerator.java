@@ -1,5 +1,7 @@
 package common.google;
 
+import java.util.Iterator;
+
 
 //Provide an implementation of the following interface:
 //public interface Powers extends Iterator<Long>
@@ -17,13 +19,56 @@ package common.google;
 //public void reset();
 //}
 
-public class IntegerGenerator {
+public class IntegerGenerator implements Iterator<Long> {
+	
+	private long num = 4;
+	
+	public void reset(){
+		num = 4;
+	}
 
-	/**
-	 * @param args
-	 */
+	@Override
+	public Long next(){
+
+		while(!test(num)){
+			num++;
+		}
+		
+		return num++;
+	}
+	
+	@Override
+	public boolean hasNext(){
+		return true;
+	}
+	
+	@Override
+	public void remove(){
+		throw new UnsupportedOperationException();
+	}
+
+	private boolean test(long n){
+		
+		final long limit = (long)Math.sqrt(n);
+		for(long i = 2; i <= limit; i ++){
+			long nn = i;
+			while(nn < n){
+				nn *= i;
+			}
+			if(nn == n){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		IntegerGenerator g = new IntegerGenerator();
+		
+		for(int i = 0; i < 1000; i ++){
+			System.out.println(g.next());
+		}
 
 	}
 
