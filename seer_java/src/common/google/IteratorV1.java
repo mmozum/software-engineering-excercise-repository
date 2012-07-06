@@ -19,6 +19,7 @@ public class IteratorV1 implements Iterator<Integer> {
 	
 	List<List<Integer>> list;
 	int row, col;
+	boolean dirty = true;
 	
 	public IteratorV1(List<List<Integer>> list){
 		this.list = list;
@@ -28,13 +29,18 @@ public class IteratorV1 implements Iterator<Integer> {
 	@Override
 	public boolean hasNext(){
 		
-		while(row < list.size()){
-			if(col >= list.get(row).size()){
-				row ++;
-				col = 0;
-			} else {
-				break;
+		if(dirty){
+		
+			col ++;
+			while(row < list.size()){
+				if(col >= list.get(row).size()){
+					row ++;
+					col = 0;
+				} else {
+					break;
+				}
 			}
+			dirty = false;
 		}
 		
 		return row < list.size();
@@ -47,7 +53,8 @@ public class IteratorV1 implements Iterator<Integer> {
 			throw new NoSuchElementException();
 		}
 		
-		return list.get(row).get(col++);
+		dirty = true;
+		return list.get(row).get(col);
 		
 	}
 
@@ -73,6 +80,7 @@ public class IteratorV1 implements Iterator<Integer> {
 		IteratorV1 i1 = new IteratorV1(list);
 		
 		while(i1.hasNext()){
+			i1.hasNext();
 			System.out.println(i1.next());
 		}
 

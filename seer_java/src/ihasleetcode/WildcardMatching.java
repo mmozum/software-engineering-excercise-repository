@@ -70,91 +70,91 @@ public class WildcardMatching {
 
 	}
 	
-	static public boolean isMatch(String s, String p) {
-		
-		char[] sArr = s.toCharArray();
-		char[] pArr = p.toCharArray();
-		
-		boolean seenStar = false;
-		int idx1 = 0, idx2 = 0;
-		int idx1Save = 0, idx2Save = 0;
-
-		while(idx1 < sArr.length && idx2 < pArr.length){
-			
-			char c = pArr[idx2];
-			if(c == '*'){
-				seenStar = true;
-				idx1Save = idx1;
-				idx2Save = idx2;
-				++ idx2;
-
-			} else if (c != '?' && c != sArr[idx1]){
-				
-				if(!seenStar){
-					return false;
-				}
-				
-				idx1 = idx1Save+1;
-				++idx1Save;
-				idx2 = idx2Save;
-			} else {
-				++ idx1;
-				++ idx2;
-				if(idx2 == pArr.length && idx1 < sArr.length){
-					if(seenStar){
-						idx1 = idx1Save+1;
-						++idx1Save;
-						idx2 = idx2Save;
-					} else {
-						return false;
-					}
-				}
-			}
-		}
-		
-		while(idx2 < pArr.length && pArr[idx2] == '*')
-			++idx2;
-		return idx2 == pArr.length && (idx1 == sArr.length || seenStar);
-
-	}
+//	static public boolean isMatch(String s, String p) {
+//		
+//		char[] sArr = s.toCharArray();
+//		char[] pArr = p.toCharArray();
+//		
+//		boolean seenStar = false;
+//		int idx1 = 0, idx2 = 0;
+//		int idx1Save = 0, idx2Save = 0;
+//
+//		while(idx1 < sArr.length && idx2 < pArr.length){
+//			
+//			char c = pArr[idx2];
+//			if(c == '*'){
+//				seenStar = true;
+//				idx1Save = idx1;
+//				idx2Save = idx2;
+//				++ idx2;
+//
+//			} else if (c != '?' && c != sArr[idx1]){
+//				
+//				if(!seenStar){
+//					return false;
+//				}
+//				
+//				idx1 = idx1Save+1;
+//				++idx1Save;
+//				idx2 = idx2Save;
+//			} else {
+//				++ idx1;
+//				++ idx2;
+//				if(idx2 == pArr.length && idx1 < sArr.length){
+//					if(seenStar){
+//						idx1 = idx1Save+1;
+//						++idx1Save;
+//						idx2 = idx2Save;
+//					} else {
+//						return false;
+//					}
+//				}
+//			}
+//		}
+//		
+//		while(idx2 < pArr.length && pArr[idx2] == '*')
+//			++idx2;
+//		return idx2 == pArr.length && (idx1 == sArr.length || seenStar);
+//
+//	}
 	
-//    static public boolean isMatch(String s, String p) {
-//        
-//        return impl(s.toCharArray(), 0, p.toCharArray(), 0, false);
-//        
-//    }
-//    
-//    static boolean impl(char[] s, int idx1, char[] p, int idx2, boolean hasStar){
-//        
-//        if(idx2 == p.length){
-//            return idx1 == s.length || hasStar;
-//        }
-//        
-//        int i1 = idx1, i2 = idx2;
-//        
-//        for(;i1 < s.length && i2 < p.length; ++i1, ++i2){
-//            
-//            char c = p[i2];
-//            
-//            if(c == '*') {
-//                return impl(s, i1, p, i2+1, true);
-//            }
-//            
-//            if(c != '?' && c != s[i1]){
-//                return hasStar ? impl(s, idx1+1, p, idx2, hasStar) : false;
-//            }
-//        }
-//        
-//        if(i1 < s.length){
-//        	return hasStar ? impl(s, idx1+1, p, idx2, hasStar) : false;
-//        }
-//        
-//        while(i2 < p.length && p[i2] == '*'){
-//            ++i2;
-//        }
-//        
-//        return i2 == p.length;
-//    }
+    static public boolean isMatch(String s, String p) {
+        
+        return impl(s.toCharArray(), 0, p.toCharArray(), 0, false);
+        
+    }
+    
+    static boolean impl(char[] s, int idx1, char[] p, int idx2, boolean hasStar){
+        
+        if(idx2 == p.length){
+            return idx1 == s.length || hasStar;
+        }
+        
+        int i1 = idx1, i2 = idx2;
+        
+        for(;i1 < s.length && i2 < p.length; ++i1, ++i2){
+            
+            char c = p[i2];
+            
+            if(c == '*') {
+                return impl(s, i1, p, i2+1, true);
+            }
+            
+            if(c != '?' && c != s[i1]){
+                return hasStar ? impl(s, idx1+1, p, idx2, hasStar) : false;
+            }
+        }
+        
+        if(i1 < s.length){
+        	return hasStar ? impl(s, idx1+1, p, idx2, hasStar) : false;
+        }
+        
+        while(i2 < p.length && p[i2] == '*'){
+            ++i2;
+        }
+        
+        return i2 == p.length;
+    }
     
     
     

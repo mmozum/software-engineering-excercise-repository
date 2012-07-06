@@ -24,8 +24,42 @@ public class LongestCommonPrefix {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		
+		String[] arr = {
+		        "abc",
+		        "abcdef",
+		        "abcd",
+		};
+		
+		System.out.println(getCommonPrefix(arr));
+	}
+	
+	// it gets a bit tricker if strArr have null/empty strings that needs
+	// to be skipped
+	static String getCommonPrefix(String[] strArr){
+		
+		if(strArr == null || strArr.length == 0){
+			return "";
+		}
+		
+		String prefix = strArr[0];
+		
+		for(int i = 1; i < strArr.length; i ++){
+			String str = strArr[i];
+			
+			int idx = 0;
+			int len = Math.min(prefix.length(), str.length());
+			
+			for(; idx < len && prefix.charAt(idx) == str.charAt(idx); idx++){
+				
+			}
+			
+			if(idx < prefix.length()){
+				prefix = prefix.substring(0, idx);
+			}
+		}
+		
+		return prefix;
 	}
 
 }
