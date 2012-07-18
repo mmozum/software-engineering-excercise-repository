@@ -15,41 +15,102 @@ public class JumpGameII {
 
 	}
 	
+	
     static public int jump(int[] A) {
 
-        int current = 0;
+    	int idx = 0;
+        int cur = 0;
+        int next = 1;
         int step = 0;
         
-        while(current < A.length - 1){
-            
-            int next = current;
-            int max = -1;
-            
-            if(A[current] + current >= A.length - 1){
-            	return step + 1;
-            }
-            
-            for(int i = current; i <= Math.min(A[current] + current, A.length-1); i ++){
-                if(A[i] + i > max){
-                    max = A[i] + i;
-                    next = i;
-                }
-            }
-            
-            step ++;
-            
-            if(max >= A.length - 1){
-            	return step;
-            }
-            
-            if(next == current){
-                return step;
-            }
-            current = next;
+        if(A.length < 1){
+        	return 0;
         }
-
-        return step;
+        
+        while(cur < next){
+        	cur = next;
+        	for(; idx < A.length && idx < cur; idx ++){
+        		next = Math.max(next, idx + A[idx]);
+        	}
+        	
+        	++ step;
+        	
+        	if(next >= A.length - 1){
+        		return step;
+        	}
+        }
+        
+        return -1;
+        
     }
+//	
+//    static public int jump(int[] A) {
+//
+//        int cur = 0;
+//        int step = 0;
+//        
+//        while(cur < A.length - 1){
+//            int max = cur;
+//            int next = cur;
+//            
+//            if(cur + A[cur] >= A.length - 1){
+//            	return step + 1;
+//            }
+//            
+//            for(int i = cur; i <= cur + A[cur]; i ++){
+//                if(i + A[i] > max){
+//                    max = i + A[i];
+//                    next = i;
+//                }
+//            }
+//            
+//            if(max == cur){
+//                return -1;
+//            } else {
+//                step ++;
+//                cur = next;
+//            }
+//        }
+//        
+//        return step;
+//        
+//    }
+//	
+//    static public int jump(int[] A) {
+//
+//        int current = 0;
+//        int step = 0;
+//        
+//        while(current < A.length - 1){
+//            
+//            int next = current;
+//            int max = -1;
+//            
+//            if(A[current] + current >= A.length - 1){
+//            	return step + 1;
+//            }
+//            
+//            for(int i = current; i <= Math.min(A[current] + current, A.length-1); i ++){
+//                if(A[i] + i > max){
+//                    max = A[i] + i;
+//                    next = i;
+//                }
+//            }
+//            
+//            step ++;
+//            
+//            if(max >= A.length - 1){
+//            	return step;
+//            }
+//            
+//            if(next == current){
+//                return step;
+//            }
+//            current = next;
+//        }
+//
+//        return step;
+//    }
 	
 	static class Item{
 		int index;

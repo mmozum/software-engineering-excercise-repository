@@ -9,7 +9,7 @@ import java.util.List;
  * http://stackoverflow.com/questions/4965335/how-to-print-binary-tree-diagram
  */
 
-class BTreePrinter {
+public class BTreePrinter {
 
     public static <T extends Comparable<?>> void printNode(Node<T> root) {
         int maxLevel = BTreePrinter.maxLevel(root);
