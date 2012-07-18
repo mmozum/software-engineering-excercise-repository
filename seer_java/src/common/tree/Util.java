@@ -18,7 +18,7 @@ public class Util {
 	 * Generate trees for testing purpose
 	 * @return
 	 */
-	static List<Node<Integer>> getTrees(){
+	public static List<Node<Integer>> getTrees(){
 		
 		List<Node<Integer>> list = new ArrayList<Node<Integer>>();
 		
