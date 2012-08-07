@@ -54,7 +54,7 @@ public class MinimumWindowSubstring {
 		};
 		
 		for(String[] test : tests){
-//			System.out.println(minWindow(test[0], test[1]));
+			System.out.println(minWindow(test[0], test[1]));
 		}
 		System.out.println(minWindow("adobecodebanc", "abcda"));
 
@@ -76,72 +76,58 @@ public class MinimumWindowSubstring {
 	}
 	
 	static public String minWindow(String S, String T) {
-		
-		if(T.isEmpty()){
-			return "";
-		}
-		
-		LinkedList<Item> queue = new LinkedList<Item>();
-		int[] countS = new int[256];
-		int[] countT = new int[256];
-		
-		// populate countT
-		for(char c : T.toCharArray()){
-			countT[c] ++;
-		}
-		
-		int toGo = T.length();
-		int current = -1;
-		int minWindow = Integer.MAX_VALUE;
-		int minStart = -1;
-		
-		while(current < S.length()){
-			
-			int oldToGo = toGo;
-			// expand
-			while(++current < S.length()){
-				
-				char c = S.charAt(current);
-				if(T.indexOf(c) < 0){
-					continue;
-				}
-				
-				queue.add(new Item(c, current));
-				
-				if(countS[c] < countT[c]){
-					toGo --;
-				}
-				
-				countS[c] ++;
-				
-				char first = queue.getFirst().c;
-				if((oldToGo > 0 && toGo == 0) || countS[first] > countT[first]){
-					break;
-				}
-			}
-			
-			if(!queue.isEmpty() && toGo == 0){
-				// contract
-				char first = queue.getFirst().c;
-				while(countS[first] > countT[first]){
-					countS[first] --;
-					queue.removeFirst();
-					first = queue.getFirst().c;
-				}
-				
-				int min = queue.getLast().index - queue.getFirst().index;
-				if(min < minWindow){
-					minWindow = min;
-					minStart = queue.getFirst().index;
-				}
-			}
-		}
-		
-		if(minWindow == Integer.MAX_VALUE){
-			return "";
-		}
-		return S.substring(minStart, minStart + minWindow + 1);
-	}
+
+        HashMap<Character,Integer> map = new HashMap<Character, Integer>();
+        
+        for(char c : T.toCharArray()){
+            if(!map.containsKey(c)){
+                map.put(c,1);
+            } else {
+                map.put(c, map.get(c) + 1);
+            }
+        }
+        
+        String ret = "";
+        int start = 0;
+        int counter = map.keySet().size();
+
+        for(int i = 0; i < S.length(); i ++){
+            char c = S.charAt(i);
+            
+            if(!map.containsKey(c)){
+                continue;
+            }
+            
+            map.put(c, map.get(c) - 1);
+            if(map.get(c).equals(0)){
+                counter --;
+            }
+            
+            
+            while(counter == 0){
+                c = S.charAt(start);
+                
+                if(map.containsKey(c) && map.get(c) == 0){
+                    break;
+                }
+                
+                if(map.containsKey(c) && map.get(c) < 0){
+                    map.put(c, map.get(c) + 1);
+                }
+                
+                start ++;
+            }
+            
+            if(counter == 0){
+                if(ret.equals("") || i - start + 1 < ret.length()){
+                    ret = S.substring(start, i+1);
+                }
+            }
+            
+        }
+        
+        return ret;
+    }
 
 
 }
