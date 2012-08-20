@@ -49,7 +49,7 @@ public final class JavaPitfalls {
 		
 		System.out.println(set.contains(c)); // return false!
 		
-		Integer i = 'a';
+		Integer i = (int)'a';
 		Character ch = 'a';
 		System.out.println(ch.equals(i)); // false
 		System.out.println(i.equals(ch)); // false
