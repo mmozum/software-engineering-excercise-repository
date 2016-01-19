@@ -1,0 +1,1 @@
+A collection of common job interview questions from software engineering related positions
